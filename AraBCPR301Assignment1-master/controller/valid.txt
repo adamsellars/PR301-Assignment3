@@ -1,0 +1,9 @@
+@startuml
+Animal <|-- Dog
+Animal <|-- Cat
+
+Animal : eat():void
+Dog : color string
+class Cat : List[] : catobjects
+class Bird : size string
+@enduml

@@ -1,0 +1,100 @@
+@startuml
+ClassFinder -- ClassMaker
+Controller -- ClassFinder
+Controller -- FileHandler
+Controller -- PEP8Converter
+Controller -- View
+
+class Controller {
+  my_command_line_interpreter : CommandLineInterpreter
+  data : None
+  pep8_content : None
+  my_class_finder : class_finder
+  my_view : view
+  all_my_classes : list
+  __init__(self, class_finder: ClassFinder, view: View) : None
+  start_menu(self) : None
+  find_all(self) : None
+  write_all(self, directory_name: String) : None
+  command_line_interpreter(self) : None
+  read_file_from_path(self, path: String) : None
+  write_file_to_path(self, path: String) : None
+  print_file_to_interpreter(self) : String
+  prep_pep8(self) : None
+  get_class_names(self) : List
+}
+
+class ClassFinder {  
+  all_my_class : list
+  __init__(self) : None
+  find_class(self, file_data: String) : None
+  get_all_my_classes(self) : list
+  relationship_finder(self, file_data: String) : None
+}
+
+class ClassMaker {
+  class_name : String
+  attribute : list
+  method : list
+  relationship : list
+  __init__(self, class_name: String) : None
+  __str__(self) : String
+  add_method(self, method_name: String) : None
+  add_attribute(self, attribute: String) : None
+  add_relationship(self, relationship: String) : None
+}
+
+class View {
+  print_menu(self) : None
+  file_not_loaded_warning() : None
+  file_empty_warning() : None
+  file_type_warning() : None
+}
+
+class PEP8Converter {
+  create_relationship(plant_relationship: String, counter: int) : String
+  create_class(plant_class_name: String) -> String
+  set_import(plant_relationship: String) : String
+  convert_class(plant_class_name: String) : String
+  convert_method(plant_method: String) : String
+  convert_attribute(plant_attribute: String) : String
+  convert_constructor(plant_method: String, pep8_attributes: String) : String  
+  create_class(plant_class_name: String, plant_method: String, plant_attribute: String) : String
+}
+
+class FileHandler {
+  read_file() : String
+  write_file(directory_name: String, content: String, a_plant_class: String) : None
+  read_file_from_path(path: String) : String
+  write_file_to_path(path: String, content: String, a_plant_class: String) : None
+  choose_directory() : String
+}
+
+class SQL {
+  connection : None
+  c : None
+  classes : None
+  connect_to_db(db_name: String) : None
+  create_class_table() : None
+  insert_data_into_table(classes : list) : None
+  fetch_all_class_data() : None
+  disconnect_db() : None
+}
+
+class CommandLineInterpreter {
+  prompt : String
+  my_controller : controller
+  banner : string
+  __init__(self, controller: Controller) : None
+  do_load_self(self, path: String) : None
+  do_write_file(self, path: String) : None
+  help_print_file(self) : None
+  help_write_file(self) : None
+  help_load_file(self) : None
+  help_quit(self) : None
+  help_greet(self) : None
+  do_greet(self, line: None) : None
+  do_print_file(self, line: None) : None
+  do_quit(self, line: None) : None
+}
+@enduml
