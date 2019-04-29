@@ -1,0 +1,7 @@
+@startuml
+class Controller {  
+  data : None  
+  __init__(self) : None
+  start_menu(self) : None  
+}
+@enduml

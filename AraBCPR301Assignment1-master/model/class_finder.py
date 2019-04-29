@@ -8,18 +8,23 @@ class ClassFinder:
 
     def find_class(self, file_data: str) -> None:
         assert type(file_data) is str, "find_class method must take string as input parameter"
-        list_of_letters = file_data.split()
+        letters = file_data.split()
         # Find total amount of words in the list
-        total_letters = len(list_of_letters)
-
+        total = len(letters)
         # for each word in the list
+        self.build_class(letters, total)
+
+
+    def build_class(self, list_of_letters, total_letters):
         for i in range(total_letters):
 
             # Check if the before word is class
             if list_of_letters[i - 1] == "class":
+
                 a_new_class = list_of_letters[i]
                 a_new_class = NewClass(a_new_class)
                 self.my_classes.append(a_new_class)
+
 
             # Add attributes
             elif ":" == list_of_letters[i]:
@@ -49,6 +54,7 @@ class ClassFinder:
                 else:
                     method = part_of_method
                 self.my_classes[-1].add_method(method)
+
 
     def get_all_my_classes(self) -> list:
         assert type(self.my_classes) is list, "get_all_my_classes must return a list"

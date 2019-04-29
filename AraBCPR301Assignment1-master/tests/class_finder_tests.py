@@ -1,5 +1,7 @@
 import unittest
-from model.class_finder import ClassFinder
+import coverage
+cov = coverage.Coverage()
+cov.start()
 
 
 class ClassFinderTests(unittest.TestCase):
@@ -24,7 +26,7 @@ class ClassFinderTests(unittest.TestCase):
         # Assert
         self.assertEqual(result, expected, "my_classes List should be empty")
 
-    def test_classes_added(self):
+    def test_classes_added_empty(self):
         # Arrange
         test = ClassFinder()
         test_data = "}"
@@ -167,7 +169,5 @@ class ClassFinderTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    import coverage
-    cov = coverage.Coverage()
-    cov.start()
+    from model.class_finder import ClassFinder
     unittest.main(verbosity=2)  # with more details

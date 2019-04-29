@@ -1,18 +1,28 @@
 import unittest
-from model.pep8_converter import PEP8Converter
-from model.class_maker import NewClass
+import coverage
+cov = coverage.Coverage()
+cov.start()
 
 
 class PEP8ConverterTests(unittest.TestCase):
 
+    def test_pep8_convert_class(self):
+        plant_class_name = "ManEater"
+        expected = "class ManEater:\n"
+        failure_msg = "\nThe actual input: \n{0}\nshould actually be\n{1}."
+
+        actual = PEP8Converter.convert_class(plant_class_name)
+
+        self.assertEqual(actual, expected, failure_msg.format(actual, expected))
+
     # Test convert_class
     def test_covert_class(self):
         # Arrange
-        test = PEP8Converter()
+        name = "controller"
         # Act
-        result = test.convert_class("controller")
+        actual = PEP8Converter.convert_class(name)
         # Assert
-        self.assertEqual(result, "class controller:\n")
+        self.assertEqual(actual, "class controller:\n")
 
     # Test convert_attribute
     def test_convert_attribute(self):
@@ -153,8 +163,6 @@ class PEP8ConverterTests(unittest.TestCase):
         # Assert
         self.assertEqual(result, expected)
 
-
-
     def test_create_relationship_valid(self):
         # Arrange
         test = PEP8Converter()
@@ -168,7 +176,6 @@ class PEP8ConverterTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    import coverage
-    cov = coverage.Coverage()
-    cov.start()
+    from model.pep8_converter import PEP8Converter
+    from model.class_maker import NewClass
     unittest.main(verbosity=2)  # with more details
