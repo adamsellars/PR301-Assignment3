@@ -15,6 +15,24 @@ class ClassFinderTests(unittest.TestCase):
         # Assert
         self.assertGreater(test.my_classes.__len__(), 0, "my_classes List should not be empty")
 
+    def test_get_all_my_classes_empty(self):
+        # Arrange
+        test = ClassFinder()
+        expected = []
+        # Act
+        result = test.get_all_my_classes()
+        # Assert
+        self.assertEqual(result, expected, "my_classes List should be empty")
+
+    def test_classes_added(self):
+        # Arrange
+        test = ClassFinder()
+        test_data = "}"
+        # Act
+        test.find_class(test_data)
+        # Assert
+        self.assertEqual(test.my_classes, [], "my_classes List should be empty")
+
     # check that the correct number of classes are added
     def test_correct_number_of_classes(self):
         # Arrange
