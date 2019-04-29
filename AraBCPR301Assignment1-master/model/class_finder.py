@@ -20,41 +20,47 @@ class ClassFinder:
 
             # Check if the before word is class
             if list_of_letters[i - 1] == "class":
-
-                a_new_class = list_of_letters[i]
-                a_new_class = NewClass(a_new_class)
-                self.my_classes.append(a_new_class)
-
+                self.add_class(list_of_letters, i)
 
             # Add attributes
             elif ":" == list_of_letters[i]:
-                if ("(" not in list_of_letters[i - 1]) and (list_of_letters[i - 1][0].islower()):
-                    attribute = list_of_letters[i - 1] + " " + list_of_letters[i] + " " + list_of_letters[i + 1]
-                    self.my_classes[-1].add_attribute(attribute)
+                self.add_attribute(list_of_letters, i)
 
             # Add methods
             elif "(" in list_of_letters[i]:
-                part_of_method = ""
-                for j in range(i, total_letters):
-                    if ")" in list_of_letters[i]:
-                        part_of_method += list_of_letters[i]
-                        break
-                    elif ")" in list_of_letters[j]:
-                        part_of_method += (" " + list_of_letters[j])
-                        if list_of_letters[j + 1] == ":":
-                            part_of_method += list_of_letters[j + 1] + " " + list_of_letters[j + 2]
-                            break
-                    elif "}" in list_of_letters[j]:
-                        break
-                    else:
-                        part_of_method += " " + (list_of_letters[j])
+                self.add_method(list_of_letters, i, total_letters)
 
-                if list_of_letters[i + 1] == ":":
-                    method = part_of_method + list_of_letters[i + 1] + " " + list_of_letters[i + 2]
-                else:
-                    method = part_of_method
-                self.my_classes[-1].add_method(method)
+    def add_class(self, letters, i):
+        a_new_class = letters[i]
+        a_new_class = NewClass(a_new_class)
+        self.my_classes.append(a_new_class)
 
+    def add_attribute(self, list_of_letters, i):
+        if ("(" not in list_of_letters[i - 1]) and (list_of_letters[i - 1][0].islower()):
+            attribute = list_of_letters[i - 1] + " " + list_of_letters[i] + " " + list_of_letters[i + 1]
+            self.my_classes[-1].add_attribute(attribute)
+
+    def add_method(self, list_of_letters, i, total_letters):
+        part_of_method = ""
+        for j in range(i, total_letters):
+            if ")" in list_of_letters[i]:
+                part_of_method += list_of_letters[i]
+                break
+            elif ")" in list_of_letters[j]:
+                part_of_method += (" " + list_of_letters[j])
+                if list_of_letters[j + 1] == ":":
+                    part_of_method += list_of_letters[j + 1] + " " + list_of_letters[j + 2]
+                    break
+            elif "}" in list_of_letters[j]:
+                break
+            else:
+                part_of_method += " " + (list_of_letters[j])
+
+        if list_of_letters[i + 1] == ":":
+            method = part_of_method + list_of_letters[i + 1] + " " + list_of_letters[i + 2]
+        else:
+            method = part_of_method
+        self.my_classes[-1].add_method(method)
 
     def get_all_my_classes(self) -> list:
         assert type(self.my_classes) is list, "get_all_my_classes must return a list"
