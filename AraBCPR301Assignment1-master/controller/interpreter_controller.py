@@ -16,10 +16,10 @@ class InterpreterController:
         self.my_command_line_interpreter = CommandLineInterpreter(self)
         self.data = ""
         self.pep8_content = ""
+        self.incorrect_input = True
 
     def start_menu(self) -> None:
-        incorrect_input = True
-        while incorrect_input:
+        while self.incorrect_input:
             self.my_view.print_menu()
             user_input = self.my_view.get_user_menu_option()
 
@@ -46,45 +46,37 @@ class InterpreterController:
             # Press 6 to load text file, convert data to PEP8 python format then convert file to pickle
             # format in same directory
             elif user_input == "6":
-                self.data = FileHandler.read_file()
-                if self.data == FileNotFoundError:
-                    self.my_view.file_not_found_message()
-                else:
-                    self.my_view.file_loaded_message()
-                    self.prep_pep8()
-                    pickle_status = Pickler.pickle_file(self.pep8_content)
-                    if pickle_status == PermissionError:
-                        self.my_view.user_has_no_file_permission()
-                    elif pickle_status == FileNotFoundError:
-                        self.my_view.file_not_found_message()
-                    elif pickle_status == Exception:
-                        self.my_view.generic_error_message()
-                    else:
-                        self.my_view.pickle_success_message()
+                self.pickle_file()
 
             # Press 7 to load data from pickle file
             elif user_input == "7":
-                if self.data is not "":
-                    pickle_content = Pickler.unpickle_file()
-                    if pickle_content == PermissionError:
-                        self.my_view.user_has_no_file_permission()
-                    elif pickle_content == FileNotFoundError:
-                        self.my_view.file_not_found_message()
-                    elif pickle_content == Exception:
-                        self.my_view.generic_error_message()
-                    else:
-                        self.my_view.print_my_pickle_content(pickle_content)
-                        self.my_view.file_loaded_message()
-                else:
-                    self.my_view.file_not_loaded_warning()
+                self.load_pickled_file()
 
             # Exit
             elif user_input == "8":
-                incorrect_input = False
-                self.my_view.exit_program()
+                self.exit_program()
 
             else:
                 self.my_view.user_has_wrong_input()
+
+    def load_pickled_file(self):
+        if self.data is not "":
+            pickle_content = Pickler.unpickle_file()
+            if pickle_content == PermissionError:
+                self.my_view.user_has_no_file_permission()
+            elif pickle_content == FileNotFoundError:
+                self.my_view.file_not_found_message()
+            elif pickle_content == Exception:
+                self.my_view.generic_error_message()
+            else:
+                self.my_view.print_my_pickle_content(pickle_content)
+                self.my_view.file_loaded_message()
+        else:
+            self.my_view.file_not_loaded_warning()
+
+    def exit_program(self):
+        self.incorrect_input = False
+        self.my_view.exit_program()
 
     def load_text_file(self):
         self.data = FileHandler.read_file()
@@ -139,6 +131,23 @@ class InterpreterController:
                 self.my_view.read_database_file(sql_database_table)
         else:
             self.my_view.file_not_loaded_warning()
+
+    def pickle_file(self):
+        self.data = FileHandler.read_file()
+        if self.data == FileNotFoundError:
+            self.my_view.file_not_found_message()
+        else:
+            self.my_view.file_loaded_message()
+            self.prep_pep8()
+            pickle_status = Pickler.pickle_file(self.pep8_content)
+            if pickle_status == PermissionError:
+                self.my_view.user_has_no_file_permission()
+            elif pickle_status == FileNotFoundError:
+                self.my_view.file_not_found_message()
+            elif pickle_status == Exception:
+                self.my_view.generic_error_message()
+            else:
+                self.my_view.pickle_success_message()
 
     def find_all(self) -> None:
         self.my_class_finder.find_class(self.data)
