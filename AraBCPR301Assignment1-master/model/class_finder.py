@@ -65,12 +65,11 @@ class ClassFinder:
         list_of_relationships = ["--", "o--"]
         total_letters = len(file_data)
         total_classes = len(self.my_classes)
+        self.build_relationship(file_data, list_of_relationships, total_letters, total_classes)
+
+    def build_relationship(self, file_data, list_of_relationships, total_letters, total_classes):
         for i in range(total_letters):
-
-            # If a word in the file is in the list of relationship
             if file_data[i] in list_of_relationships:
-
-                # Class one is the class before relationship symbol and class two is the relationship afterwards.
                 class_one, my_relationship, class_two = file_data[i - 1], file_data[i], file_data[i + 1]
                 for j in range(total_classes):
                     if self.my_classes[j].class_name == class_one:
