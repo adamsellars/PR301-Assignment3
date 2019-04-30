@@ -29,20 +29,7 @@ class InterpreterController:
 
             # Press 2 to write from plantuml text to python code
             elif user_input == "2":
-                if self.data is not "":
-                    self.find_all()
-                    directory_name = FileHandler.choose_directory()
-                    if directory_name == TypeError:
-                        self.my_view.file_not_found_message()
-                    elif directory_name == Exception:
-                        self.my_view.generic_error_message()
-                    else:
-                        self.write_all(directory_name)
-
-                elif directory_name == FileNotFoundError:
-                    self.my_view.exit_file_directory()
-                else:
-                    self.my_view.file_not_loaded_warning()
+                self.write_file_to_code()
 
             # Press 3 to start command line interpreter
             elif user_input == "3":
@@ -50,37 +37,11 @@ class InterpreterController:
 
             # Press 4 to write file to data base
             elif user_input == "4":
-                if self.data is not "":
-                    error_message = SQL.connect_to_db("assignment1")
-                    if error_message == PermissionError:
-                        self.my_view.user_has_no_file_permission()
-                    elif error_message == FileNotFoundError:
-                        self.my_view.file_not_found_message()
-                    elif error_message == Exception:
-                        self.my_view.generic_error_message()
-                    else:
-                        SQL.c.execute("""DROP TABLE if exists class;""")
-                        SQL.create_class_table()
-                        classes = self.get_class_names()
-                        SQL.insert_data_into_table(classes)
-                        self.my_view.database_connected_message()
-                else:
-                    self.my_view.file_not_loaded_warning()
+                self.write_to_database()
 
             # Press 5 to print PEP8 class file to screen from database
             elif user_input == "5":
-                if self.data is not "":
-                    sql_database_table = SQL.fetch_all_class_data()
-                    if sql_database_table == PermissionError:
-                        self.my_view.user_has_no_file_permission()
-                    elif sql_database_table == FileNotFoundError:
-                        self.my_view.file_not_found_message()
-                    elif sql_database_table == Exception:
-                        self.my_view.generic_error_message()
-                    else:
-                        self.my_view.read_database_file(sql_database_table)
-                else:
-                    self.my_view.file_not_loaded_warning()
+                self.print_to_screen()
 
             # Press 6 to load text file, convert data to PEP8 python format then convert file to pickle
             # format in same directory
@@ -131,6 +92,53 @@ class InterpreterController:
             self.my_view.file_not_found_message()
         else:
             self.my_view.file_loaded_message()
+
+    def write_file_to_code(self):
+        directory_name = FileHandler.choose_directory()
+        if self.data is not "":
+            self.find_all()
+            if directory_name == TypeError:
+                self.my_view.file_not_found_message()
+            elif directory_name == Exception:
+                self.my_view.generic_error_message()
+            else:
+                self.write_all(directory_name)
+        elif directory_name == FileNotFoundError:
+            self.my_view.exit_file_directory()
+        else:
+            self.my_view.file_not_loaded_warning()
+
+    def write_to_database(self):
+        if self.data is not "":
+            error_message = SQL.connect_to_db("assignment1")
+            if error_message == PermissionError:
+                self.my_view.user_has_no_file_permission()
+            elif error_message == FileNotFoundError:
+                self.my_view.file_not_found_message()
+            elif error_message == Exception:
+                self.my_view.generic_error_message()
+            else:
+                SQL.c.execute("""DROP TABLE if exists class;""")
+                SQL.create_class_table()
+                classes = self.get_class_names()
+                SQL.insert_data_into_table(classes)
+                self.my_view.database_connected_message()
+        else:
+            self.my_view.file_not_loaded_warning()
+
+    def print_to_screen(self):
+        if self.data is not "":
+            sql_database_table = SQL.fetch_all_class_data()
+            if sql_database_table == PermissionError:
+                self.my_view.user_has_no_file_permission()
+            elif sql_database_table == FileNotFoundError:
+                self.my_view.file_not_found_message()
+            elif sql_database_table == Exception:
+                self.my_view.generic_error_message()
+            else:
+                self.my_view.read_database_file(sql_database_table)
+        else:
+            self.my_view.file_not_loaded_warning()
 
     def find_all(self) -> None:
         self.my_class_finder.find_class(self.data)
