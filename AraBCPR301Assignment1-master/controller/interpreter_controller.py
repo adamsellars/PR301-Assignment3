@@ -96,19 +96,11 @@ class InterpreterController:
 
     def pickle_file(self):
         self.data = FileHandler.read_file()
-        if self.data == FileNotFoundError:
-            self.my_view.file_not_found_message()
-        else:
+        if self.check_errors(self.data) == 0:
             self.my_view.file_loaded_message()
             self.prep_pep8()
             pickle_status = Pickler.pickle_file(self.pep8_content)
-            if pickle_status == PermissionError:
-                self.my_view.user_has_no_file_permission()
-            elif pickle_status == FileNotFoundError:
-                self.my_view.file_not_found_message()
-            elif pickle_status == Exception:
-                self.my_view.generic_error_message()
-            else:
+            if self.check_errors(pickle_status) == 0:
                 self.my_view.pickle_success_message()
 
     def find_all(self) -> None:
