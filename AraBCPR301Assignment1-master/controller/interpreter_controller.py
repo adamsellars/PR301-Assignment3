@@ -25,11 +25,7 @@ class InterpreterController:
 
             # Press 1 to load your text file
             if user_input == "1":
-                self.data = FileHandler.read_file()
-                if self.data == FileNotFoundError:
-                    self.my_view.file_not_found_message()
-                else:
-                    self.my_view.file_loaded_message()
+                self.load_text_file()
 
             # Press 2 to write from plantuml text to python code
             elif user_input == "2":
@@ -128,6 +124,13 @@ class InterpreterController:
 
             else:
                 self.my_view.user_has_wrong_input()
+
+    def load_text_file(self):
+        self.data = FileHandler.read_file()
+        if self.data == FileNotFoundError:
+            self.my_view.file_not_found_message()
+        else:
+            self.my_view.file_loaded_message()
 
     def find_all(self) -> None:
         self.my_class_finder.find_class(self.data)
