@@ -60,20 +60,14 @@ class InterpreterController:
 
     def load_text_file(self):
         self.data = FileHandler.read_file()
-        if self.data == FileNotFoundError:
-            self.my_view.file_not_found_message()
-        else:
+        if self.check_errors(self.data) == 0:
             self.my_view.file_loaded_message()
 
     def write_file_to_code(self):
         directory_name = FileHandler.choose_directory()
         if self.data is not "":
             self.find_all()
-            if directory_name == TypeError:
-                self.my_view.file_not_found_message()
-            elif directory_name == Exception:
-                self.my_view.generic_error_message()
-            else:
+            if self.check_errors(self.data) == 0:
                 self.write_all(directory_name)
         elif directory_name == FileNotFoundError:
             self.my_view.exit_file_directory()
