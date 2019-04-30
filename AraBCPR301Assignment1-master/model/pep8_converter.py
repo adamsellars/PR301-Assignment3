@@ -39,18 +39,12 @@ class PEP8Converter:
         assert isinstance(plant_class_name, object), "create_class method parameter " \
                                                             "plant_class_name must be an object"
         methods = ""
-        attributes = ""
         relationship = ""
         import_class = ""
         counter = 1
         class_name = PEP8Converter.convert_class(plant_class_name.class_name)
-        for a_method in plant_class_name.method:
-            if "init" in a_method:
-                for an_attribute in plant_class_name.attribute:
-                    attributes += PEP8Converter.convert_attribute(an_attribute)
-                methods += PEP8Converter.convert_constructor(a_method, attributes)
-            else:
-                methods += PEP8Converter.convert_method(a_method)
+        methods += PEP8Converter.create_constructor(plant_class_name)
+
         if (len(plant_class_name.relationship)) > 0:
             for a_relationship in plant_class_name.relationship:
                 relationship += PEP8Converter.create_relationship(a_relationship, counter)
@@ -58,9 +52,23 @@ class PEP8Converter:
                 counter += 1
             assert type(import_class) is str, "create_class method must return a string"
             return import_class + "\n\n" + class_name + methods + "\n" + relationship + "\n"
+
         else:
             assert type(class_name + methods + relationship) is str, "create_class method must return a string"
             return class_name + methods + relationship
+
+    @staticmethod
+    def create_constructor(plant_class_name):
+        attributes = ""
+        methods = ""
+        for a_method in plant_class_name.method:
+            if "init" in a_method:
+                for an_attribute in plant_class_name.attribute:
+                    attributes += PEP8Converter.convert_attribute(an_attribute)
+                methods += PEP8Converter.convert_constructor(a_method, attributes)
+            else:
+                methods += PEP8Converter.convert_method(a_method)
+        return methods
 
     @staticmethod
     def convert_method(plant_method: str) -> str:
