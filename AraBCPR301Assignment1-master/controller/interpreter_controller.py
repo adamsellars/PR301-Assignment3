@@ -19,47 +19,16 @@ class InterpreterController:
         self.incorrect_input = True
 
     def start_menu(self) -> None:
-        menu_options = {"1": self.load_text_file(), "2": self.write_file_to_code(),
-                        "3": self.command_line_interpreter(), "4": self.write_to_database(),
-                        "5": self.print_to_screen(), "6": self.pickle_file(), "7": self.load_pickled_file(),
-                        "8": self.exit_program()}
+        menu_options = {"1": self.load_text_file, "2": self.write_file_to_code,
+                        "3": self.command_line_interpreter, "4": self.write_to_database,
+                        "5": self.print_to_screen, "6": self.pickle_file, "7": self.load_pickled_file,
+                        "8": self.exit_program}
         while self.incorrect_input:
             self.my_view.print_menu()
             user_input = self.my_view.get_user_menu_option()
-
-            # Press 1 to load your text file
-            if user_input == "1":
-                self.load_text_file()
-
-            # Press 2 to write from plantuml text to python code
-            elif user_input == "2":
-                self.write_file_to_code()
-
-            # Press 3 to start command line interpreter
-            elif user_input == "3":
-                self.command_line_interpreter()
-
-            # Press 4 to write file to data base
-            elif user_input == "4":
-                self.write_to_database()
-
-            # Press 5 to print PEP8 class file to screen from database
-            elif user_input == "5":
-                self.print_to_screen()
-
-            # Press 6 to load text file, convert data to PEP8 python format then convert file to pickle
-            # format in same directory
-            elif user_input == "6":
-                self.pickle_file()
-
-            # Press 7 to load data from pickle file
-            elif user_input == "7":
-                self.load_pickled_file()
-
-            # Exit
-            elif user_input == "8":
-                self.exit_program()
-
+            if user_input in menu_options:
+                current_option = menu_options.get(user_input)
+                current_option()
             else:
                 self.my_view.user_has_wrong_input()
 
