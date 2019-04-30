@@ -40,7 +40,7 @@ class PEP8Converter:
         methods = ""
         class_name = PEP8Converter.convert_class(plant_class_name.class_name)
         methods += PEP8Converter.create_constructor(plant_class_name)
-        return PEP8Converter.build_relationship(plant_class_name, class_name, methods)        
+        return PEP8Converter.build_relationship(plant_class_name, class_name, methods)
 
     @staticmethod
     def create_constructor(plant_class_name):
@@ -74,12 +74,11 @@ class PEP8Converter:
     @staticmethod
     def convert_method(plant_method: str) -> str:
         assert type(plant_method) is str, "convert_method method plant_method parameter must be a string"
-        if "String" in plant_method:
-            plant_method = plant_method.replace("String", "str")
-        elif "Object" in plant_method:
-            plant_method = plant_method.replace("Object", "T")
+        plant_method = PEP8Converter.find_method_data_type(plant_method)
+
         total_words = len(plant_method)
         my_method = ""
+
         for i in range(total_words):
             if "(" in plant_method[i]:
                 for j in range(i, total_words):
@@ -87,12 +86,22 @@ class PEP8Converter:
                         plant_method = list(plant_method)
                         plant_method[j+1] = " ->"
                         my_method = "".join(plant_method).lstrip()
+
         if "self" not in my_method:
+
             pep8_method = "\n    @staticmethod\n    def {}:\n        pass\n".format(my_method)
         else:
             pep8_method = "\n    def {}:\n        pass\n".format(my_method)
         assert type(pep8_method) is str, "convert_method method must return a string"
         return pep8_method
+
+    @staticmethod
+    def find_method_data_type(plant_method):
+        if "String" in plant_method:
+            plant_method = plant_method.replace("String", "str")
+        elif "Object" in plant_method:
+            plant_method = plant_method.replace("Object", "T")
+        return plant_method
 
     @staticmethod
     def convert_constructor(plant_method: str, pep8_attributes: str) -> str:
