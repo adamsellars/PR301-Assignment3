@@ -1,7 +1,6 @@
 import unittest
-import coverage
-cov = coverage.Coverage()
-cov.start()
+from model.class_finder import ClassFinder
+
 
 
 class ClassFinderTests(unittest.TestCase):
@@ -163,11 +162,5 @@ class ClassFinderTests(unittest.TestCase):
         class_relationship = test.my_classes[0].relationship
         # Assert
         self.assertEqual(class_relationship, ["-- ClassFinder", "-- FileHandler", "-- PEP8Converter", "-- View"])
-        cov.stop()
-        cov.save()
-        cov.html_report()
 
 
-if __name__ == "__main__":
-    from model.class_finder import ClassFinder
-    unittest.main(verbosity=2)  # with more details

@@ -1,19 +1,17 @@
 import unittest
-import coverage
-cov = coverage.Coverage()
-cov.start()
+from model.pep8_converter import PEP8Converter
+from model.class_maker import NewClass
 
 
 class PEP8ConverterTests(unittest.TestCase):
 
-    def test_pep8_convert_class(self):
-        plant_class_name = "ManEater"
-        expected = "class ManEater:\n"
-        failure_msg = "\nThe actual input: \n{0}\nshould actually be\n{1}."
-
-        actual = PEP8Converter.convert_class(plant_class_name)
-
-        self.assertEqual(actual, expected, failure_msg.format(actual, expected))
+    def test_set_import_no_relationship(self):
+        # arrange
+        relationship = "none"
+        expected = ""
+        # act
+        actual = PEP8Converter.set_import(relationship)
+        self.assertEquals(actual, expected)
 
     # Test convert_class
     def test_covert_class(self):
@@ -128,12 +126,6 @@ class PEP8ConverterTests(unittest.TestCase):
             "object1 = ClassFinder()\n"
         # Act
         result = test.create_class(plant_class_name)
-        print("----------------------")
-        print(result)
-        print("----------------------")
-        print("=======================")
-        print(expected)
-        print("=======================")
         # Assert
         self.assertEqual(result, expected)
 
@@ -154,12 +146,6 @@ class PEP8ConverterTests(unittest.TestCase):
 
         # Act
         result = test.create_class(plant_class_name)
-        print("----------------------")
-        print(result)
-        print("----------------------")
-        print("=======================")
-        print(expected)
-        print("=======================")
         # Assert
         self.assertEqual(result, expected)
 
@@ -170,12 +156,3 @@ class PEP8ConverterTests(unittest.TestCase):
         result = test.create_relationship("controller -- ClassFinder", 0)
         # Assert
         self.assertEqual(result, "\nobject0 = --()")
-        cov.stop()
-        cov.save()
-        cov.html_report()
-
-
-if __name__ == "__main__":
-    from model.pep8_converter import PEP8Converter
-    from model.class_maker import NewClass
-    unittest.main(verbosity=2)  # with more details

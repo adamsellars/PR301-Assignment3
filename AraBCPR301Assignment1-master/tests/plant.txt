@@ -1,0 +1,174 @@
+@startuml
+Controller -- ClassFinder
+Controller -- FileHandler
+Controller -- PEP8Converter
+Controller -- View
+Controller -- CommandLineInterpreter
+CommandLineInterpreter -- Controller
+
+
+class Controller {
+  my_command_line_interpreter : CommandLineInterpreter
+  data : String
+  pep8_content : String
+  my_class_finder : class_finder
+  my_view : view
+  all_my_classes : list
+  __init__(self, class_finder: ClassFinder, view: View) : None
+  start_menu(self) : String
+  find_all(self) : String
+  write_all(self, directory_name: String) : None
+  command_line_interpreter(self) : None
+  read_file_from_path(self, path: String) : None
+  write_file_to_path(self, path: String) : None
+  print_file_to_interpreter(self) : String
+  prep_pep8(self) : None
+  get_class_names(self) : list
+}
+
+class ClassFinder {
+  all_my_class : list
+  __init__(self) : None
+  find_class(self, file_data: String) : None
+  get_all_my_classes(self) : list
+  relationship_finder(self, file_data: String) : None
+}
+
+class NewClass {
+  class_name : String
+  attribute : list
+  method : list
+  relationship : list
+  __init__(self, class_name: String) : None
+  __str__(self) : String
+  add_method(self, method_name: String) : None
+  add_attribute(self, attribute: String) : None
+  add_relationship(self, relationship: String) : None
+}
+
+class View {
+  print_menu() : None
+  file_not_loaded_warning() : None
+  file_empty_warning() : None
+  file_type_warning() : None
+  exit_file_directory() : None
+  user_has_wrong_input() : String
+  exit_program() : None
+  get_user_menu_option() : String
+  file_loaded_message() : None
+  file_not_found_message() : None
+  user_has_no_permission() : None
+  generic_error_message() : None
+  print_my_pickle_content(content: String) : None
+  files_written_message() : None
+  database_connected_message() : None
+  read_database_file(database_file: String) : None
+  pickle_success_message() : None
+
+
+}
+
+class PEP8Converter {
+  create_relationship(plant_relationship: String, counter: int) : String
+  create_class(plant_class_name: String) : String
+  set_import(plant_relationship: String) : String
+  convert_class(plant_class_name: String) : String
+  convert_method(plant_method: String) : String
+  convert_attribute(plant_attribute: String) : String
+  convert_constructor(plant_method: String, pep8_attributes: String) : String  
+  create_class(plant_class_name: String, plant_method: String, plant_attribute: String) : String
+}
+
+class FileHandler {
+  read_file() : String
+  write_file(directory_name: String, content: String, a_plant_class: String) : None
+  read_file_from_path(path: String) : String
+  write_file_to_path(path: String, content: String, a_plant_class: String) : None
+  choose_directory() : String
+}
+
+class SQL {
+  connection : None
+  c : None
+  classes : None
+  connect_to_db(db_name: String) : None
+  create_class_table() : None
+  insert_data_into_table(classes: list) : None
+  fetch_all_class_data() : None
+  disconnect_db() : None
+}
+
+class CommandLineInterpreter {  
+  __init__(self, controller: Controller) : None
+  prompt : String
+  my_controller : controller
+  banner : String
+  do_load_self(self, path: String) : None
+  do_write_file(self, path: String) : None
+  help_print_file(self) : None
+  help_write_file(self) : None
+  help_load_file(self) : None
+  help_quit(self) : None
+  help_greet(self) : None
+  do_greet(self, line: None) : None
+  do_print_file(self, line: None) : None
+  do_quit(self, line: None) : None
+}
+
+class FileHandlerTests {
+  setUp(self) : None
+  tearDown(self) : None
+  test_01(self) : None
+  test_02(self) : None
+  test_03(self) : None
+}
+
+class ClassMakerTests {
+  setUp(self) : None
+  test_04(self) : None
+  test_05(self) : None
+  test_06(self) : None 
+  test_07(self) : None
+  test_08(self) : None
+  test_09(self) : None
+  test_10(self) : None 
+}
+
+class ClassFinderTests {
+  setUp(self) : None
+  test_11(self) : None
+  test_12(self) : None
+  test_13(self) : None 
+  test_14(self) : None
+  test_15(self) : None
+  test_16(self) : None
+  test_17(self) : None  
+  test_18(self) : None
+  test_19(self) : None
+}
+
+class PEP8ConverterTests {
+  setUp(self) : None
+  test_20(self) : None
+  test_21(self) : None
+  test_22(self) : None 
+  test_23(self) : None
+  test_24(self) : None 
+}
+
+class ClassFinderTests {
+  setUp(self) : None
+  test_04(self) : None
+  test_05(self) : None
+  test_06(self) : None
+  test_07(self) : None
+  test_08(self) : None
+  test_09(self) : None
+  test_10(self) : None
+}
+
+class Pickler {
+  pickle_file(file_data: String) : None
+  unpickle_file() : None
+}
+@enduml
