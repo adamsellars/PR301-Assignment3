@@ -19,6 +19,10 @@ class InterpreterController:
         self.incorrect_input = True
 
     def start_menu(self) -> None:
+        menu_options = {"1": self.load_text_file(), "2": self.write_file_to_code(),
+                        "3": self.command_line_interpreter(), "4": self.write_to_database(),
+                        "5": self.print_to_screen(), "6": self.pickle_file(), "7": self.load_pickled_file(),
+                        "8": self.exit_program()}
         while self.incorrect_input:
             self.my_view.print_menu()
             user_input = self.my_view.get_user_menu_option()
