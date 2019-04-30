@@ -75,17 +75,8 @@ class PEP8Converter:
     def convert_method(plant_method: str) -> str:
         assert type(plant_method) is str, "convert_method method plant_method parameter must be a string"
         plant_method = PEP8Converter.find_method_data_type(plant_method)
-
         total_words = len(plant_method)
-        my_method = ""
-
-        for i in range(total_words):
-            if "(" in plant_method[i]:
-                for j in range(i, total_words):
-                    if ")" in plant_method[j]:
-                        plant_method = list(plant_method)
-                        plant_method[j+1] = " ->"
-                        my_method = "".join(plant_method).lstrip()
+        my_method = PEP8Converter.find_method_details(total_words, plant_method)
 
         if "self" not in my_method:
 
@@ -102,6 +93,17 @@ class PEP8Converter:
         elif "Object" in plant_method:
             plant_method = plant_method.replace("Object", "T")
         return plant_method
+
+    @staticmethod
+    def find_method_details(total_words, plant_method):
+        for i in range(total_words):
+            if "(" in plant_method[i]:
+                for j in range(i, total_words):
+                    if ")" in plant_method[j]:
+                        plant_method = list(plant_method)
+                        plant_method[j+1] = " ->"
+                        my_method = "".join(plant_method).lstrip()
+        return my_method
 
     @staticmethod
     def convert_constructor(plant_method: str, pep8_attributes: str) -> str:
