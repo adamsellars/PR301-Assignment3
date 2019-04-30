@@ -111,10 +111,9 @@ class PEP8Converter:
     def convert_constructor(plant_method: str, pep8_attributes: str) -> str:
         assert type(plant_method) is str, "convert_constructor method plant_method parameter must be a string"
         assert type(pep8_attributes) is str, "convert_constructor method pep8_attributes parameter must be a string"
-        if "String" in plant_method:
-            plant_method = plant_method.replace("String", "str")
-        elif "Object" in plant_method:
-            plant_method = plant_method.replace("Object", "T")
+        plant_method = PEP8Converter.find_method_data_type(plant_method)
+
+
         total_words = len(plant_method)
         my_method = ""
         for i in range(total_words):
