@@ -77,13 +77,7 @@ class InterpreterController:
     def write_to_database(self):
         if self.data is not "":
             error_message = SQL.connect_to_db("assignment1")
-            if error_message == PermissionError:
-                self.my_view.user_has_no_file_permission()
-            elif error_message == FileNotFoundError:
-                self.my_view.file_not_found_message()
-            elif error_message == Exception:
-                self.my_view.generic_error_message()
-            else:
+            if self.check_errors(error_message) == 0:
                 SQL.c.execute("""DROP TABLE if exists class;""")
                 SQL.create_class_table()
                 classes = self.get_class_names()
@@ -95,13 +89,7 @@ class InterpreterController:
     def print_to_screen(self):
         if self.data is not "":
             sql_database_table = SQL.fetch_all_class_data()
-            if sql_database_table == PermissionError:
-                self.my_view.user_has_no_file_permission()
-            elif sql_database_table == FileNotFoundError:
-                self.my_view.file_not_found_message()
-            elif sql_database_table == Exception:
-                self.my_view.generic_error_message()
-            else:
+            if self.check_errors(sql_database_table) == 0:
                 self.my_view.read_database_file(sql_database_table)
         else:
             self.my_view.file_not_loaded_warning()
