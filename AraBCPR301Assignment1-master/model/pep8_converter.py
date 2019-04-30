@@ -36,26 +36,11 @@ class PEP8Converter:
 
     @staticmethod
     def create_class(plant_class_name: object) -> object:
-        assert isinstance(plant_class_name, object), "create_class method parameter " \
-                                                            "plant_class_name must be an object"
+        assert isinstance(plant_class_name, object), "parameter must be an object"
         methods = ""
-        relationship = ""
-        import_class = ""
-        counter = 1
         class_name = PEP8Converter.convert_class(plant_class_name.class_name)
         methods += PEP8Converter.create_constructor(plant_class_name)
-
-        if (len(plant_class_name.relationship)) > 0:
-            for a_relationship in plant_class_name.relationship:
-                relationship += PEP8Converter.create_relationship(a_relationship, counter)
-                import_class += PEP8Converter.set_import(a_relationship)
-                counter += 1
-            assert type(import_class) is str, "create_class method must return a string"
-            return import_class + "\n\n" + class_name + methods + "\n" + relationship + "\n"
-
-        else:
-            assert type(class_name + methods + relationship) is str, "create_class method must return a string"
-            return class_name + methods + relationship
+        return PEP8Converter.build_relationship(plant_class_name, class_name, methods)        
 
     @staticmethod
     def create_constructor(plant_class_name):
@@ -69,6 +54,22 @@ class PEP8Converter:
             else:
                 methods += PEP8Converter.convert_method(a_method)
         return methods
+
+    @staticmethod
+    def build_relationship(plant_class_name, class_name, methods):
+        counter = 1
+        relationship = ""
+        import_class = ""
+        if (len(plant_class_name.relationship)) > 0:
+            for a_relationship in plant_class_name.relationship:
+                relationship += PEP8Converter.create_relationship(a_relationship, counter)
+                import_class += PEP8Converter.set_import(a_relationship)
+                counter += 1
+            assert type(import_class) is str, "create_class method must return a string"
+            return import_class + "\n\n" + class_name + methods + "\n" + relationship + "\n"
+        else:
+            assert type(class_name + methods + relationship) is str, "create_class method must return a string"
+            return class_name + methods + relationship
 
     @staticmethod
     def convert_method(plant_method: str) -> str:
