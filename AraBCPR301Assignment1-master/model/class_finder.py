@@ -14,19 +14,12 @@ class ClassFinder:
         # for each word in the list
         self.build_class(letters, total)
 
-
     def build_class(self, list_of_letters, total_letters):
         for i in range(total_letters):
-
-            # Check if the before word is class
             if list_of_letters[i - 1] == "class":
                 self.add_class(list_of_letters, i)
-
-            # Add attributes
             elif ":" == list_of_letters[i]:
                 self.add_attribute(list_of_letters, i)
-
-            # Add methods
             elif "(" in list_of_letters[i]:
                 self.add_method(list_of_letters, i, total_letters)
 
@@ -55,7 +48,6 @@ class ClassFinder:
                 break
             else:
                 part_of_method += " " + (list_of_letters[j])
-
         if list_of_letters[i + 1] == ":":
             method = part_of_method + list_of_letters[i + 1] + " " + list_of_letters[i + 2]
         else:
