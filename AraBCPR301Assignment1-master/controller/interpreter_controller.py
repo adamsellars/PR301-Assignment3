@@ -35,17 +35,24 @@ class InterpreterController:
     def load_pickled_file(self):
         if self.data is not "":
             pickle_content = Pickler.unpickle_file()
-            if pickle_content == PermissionError:
-                self.my_view.user_has_no_file_permission()
-            elif pickle_content == FileNotFoundError:
-                self.my_view.file_not_found_message()
-            elif pickle_content == Exception:
-                self.my_view.generic_error_message()
-            else:
+            if self.check_errors(pickle_content) == 0:
                 self.my_view.print_my_pickle_content(pickle_content)
                 self.my_view.file_loaded_message()
         else:
             self.my_view.file_not_loaded_warning()
+
+    def check_errors(self, content):
+        error_count = 0
+        if content == PermissionError:
+            self.my_view.user_has_no_file_permission()
+            error_count += 1
+        elif content == FileNotFoundError:
+            self.my_view.file_not_found_message()
+            error_count += 1
+        elif content == Exception:
+            self.my_view.generic_error_message()
+            error_count += 1
+        return error_count
 
     def exit_program(self):
         self.incorrect_input = False
