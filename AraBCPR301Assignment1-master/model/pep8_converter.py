@@ -77,14 +77,7 @@ class PEP8Converter:
         plant_method = PEP8Converter.find_method_data_type(plant_method)
         total_words = len(plant_method)
         my_method = PEP8Converter.find_method_details(total_words, plant_method)
-
-        if "self" not in my_method:
-
-            pep8_method = "\n    @staticmethod\n    def {}:\n        pass\n".format(my_method)
-        else:
-            pep8_method = "\n    def {}:\n        pass\n".format(my_method)
-        assert type(pep8_method) is str, "convert_method method must return a string"
-        return pep8_method
+        return PEP8Converter.format_method(my_method)
 
     @staticmethod
     def find_method_data_type(plant_method):
@@ -93,6 +86,15 @@ class PEP8Converter:
         elif "Object" in plant_method:
             plant_method = plant_method.replace("Object", "T")
         return plant_method
+
+    @staticmethod
+    def format_method(my_method):
+        if "self" not in my_method:
+            pep8_method = "\n    @staticmethod\n    def {}:\n        pass\n".format(my_method)
+        else:
+            pep8_method = "\n    def {}:\n        pass\n".format(my_method)
+        assert type(pep8_method) is str, "convert_method method must return a string"
+        return pep8_method
 
     @staticmethod
     def find_method_details(total_words, plant_method):
