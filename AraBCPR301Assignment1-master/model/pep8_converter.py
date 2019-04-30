@@ -112,17 +112,8 @@ class PEP8Converter:
         assert type(plant_method) is str, "convert_constructor method plant_method parameter must be a string"
         assert type(pep8_attributes) is str, "convert_constructor method pep8_attributes parameter must be a string"
         plant_method = PEP8Converter.find_method_data_type(plant_method)
-
-
         total_words = len(plant_method)
-        my_method = ""
-        for i in range(total_words):
-            if "(" in plant_method[i]:
-                for j in range(i, total_words):
-                    if ")" in plant_method[j]:
-                        plant_method = list(plant_method)
-                        plant_method[j + 1] = " ->"
-                        my_method = "".join(plant_method).lstrip()
+        my_method = PEP8Converter.find_method_details(total_words, plant_method)
         pep8_method = "\n    def {}:\n    {}".format(my_method, pep8_attributes)
         assert type(pep8_method) is str, "convert_constructor method must return a string"
         return pep8_method
