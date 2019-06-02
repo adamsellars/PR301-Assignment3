@@ -14,7 +14,7 @@ class Controller:
         self.my_class_finder = class_finder    
         self.my_view = view    
         self.all_my_classes = list    
-    
+
     def start_menu(self) -> str:
         pass
 
@@ -41,10 +41,3 @@ class Controller:
 
     def get_class_names(self) -> list:
         pass
-
-
-object1 = ClassFinder()
-object2 = FileHandler()
-object3 = PEP8Converter()
-object4 = View()
-object5 = CommandLineInterpreter()

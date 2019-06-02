@@ -5,6 +5,8 @@ from model.pep8_converter import PEP8Converter
 from view.command_line_interpreter import CommandLineInterpreter
 from model.database import SQL
 from model.pickle import Pickler
+from model.code_generator import CodeGenerator
+from model.python_builder import PythonBuilder
 
 
 class InterpreterController:
@@ -111,8 +113,18 @@ class InterpreterController:
     def write_all(self, directory_name) -> None:
         assert type(directory_name) is str, "write_all method directory_name must be a string"
         write_file_status = ""
+        # client code for builder
+        # client creates concrete builder
+        python_builder = PythonBuilder()
+        # client creates director
+        code_generator = CodeGenerator()
+        # client chooses the builder for director
+        code_generator.set_builder(python_builder)
         for a_plant_class in self.all_my_classes:
-            content = PEP8Converter.create_class(a_plant_class)
+            code_generator.generate_code(a_plant_class)
+            # client gets the product from the concrete builder via a get method
+            content = python_builder.get_result()
+            print(content)
             write_file_status = FileHandler.write_file(directory_name, content, a_plant_class)
         if write_file_status == TypeError:
             self.my_view.exit_file_directory()

@@ -7,7 +7,7 @@ class CommandLineInterpreter:
         self.prompt = str    
         self.my_controller = controller    
         self.banner = str    
-    
+
     def do_load_self(self, path: str) -> None:
         pass
 
@@ -37,6 +37,3 @@ class CommandLineInterpreter:
 
     def do_quit(self, line: None) -> None:
         pass
-
-
-object1 = Controller()

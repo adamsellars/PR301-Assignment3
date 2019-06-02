@@ -5,7 +5,7 @@ class NewClass:
         self.attribute = list    
         self.method = list    
         self.relationship = list    
-    
+
     def __str__(self) -> str:
         pass
 

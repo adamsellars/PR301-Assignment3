@@ -2,7 +2,7 @@ class ClassFinder:
 
     def __init__(self) -> None:
         self.all_my_class = list    
-    
+
     def find_class(self, file_data: str) -> None:
         pass
 
