@@ -1,4 +1,10 @@
 from cmd import Cmd
+from view.help_display import HelpDisplay
+from view.greet_help import GreetHelp
+from view.load_file_help import LoadFileHelp
+from view.print_file_help import PrintFileHelp
+from view.quit_help import QuitHelp
+from view.write_file_help import WriteFileHelp
 
 
 class CommandLineInterpreter(Cmd):
@@ -19,62 +25,28 @@ class CommandLineInterpreter(Cmd):
 
     # Created by Leroi
     def help_print_file(self):
-        print(
-            self.banner +
-            "\nprint_file command help\n" +
-            self.banner +
-            "\nDescription: Print a PEP8 format text into the interpreter\n"
-            "Syntax: print_file\n"
-            "Example: print_file test4.txt\n"
-        )
+        display = HelpDisplay(PrintFileHelp())
+        display.display_message()
 
     # Created by Leroi
     def help_write_file(self):
-        print(
-            self.banner +
-            "\nwrite_file command help\n" +
-            self.banner +
-            "\nDescription: write a PEP8 format .txt file into path chosen\n"
-            "Syntax: write_file [path]\n"
-            "Parameter: [path] = full path name of the file starting from the root directory of this program\n"
-            "Example: write_file test4(myowncode).txt\n"
-        )
+        display = HelpDisplay(WriteFileHelp())
+        display.display_message()
 
     # Created by Adam
     def help_load_file(self):
-        print(
-            self.banner +
-            "\nload_file command help\n" +
-            self.banner +
-            "\nDescription: Load a .txt file into the program\n"
-            "Syntax: load_file [path]\n"
-            "Parameter: [path] = full path name of the file starting from the root directory of this program\n"
-            "Example: load_file test4(myowncode).txt\n"
-        )
+        display = HelpDisplay(LoadFileHelp())
+        display.display_message()
 
     # Created by Adam
     def help_quit(self):
-        print(
-            self.banner +
-            "\nquit command help\n" +
-            self.banner +
-            "\nDescription: terminate the command line interpreter\n"
-            "Syntax: quit\n"
-            "Parameter: none\n"
-            "Example: quit\n"
-        )
+        display = HelpDisplay(QuitHelp())
+        display.display_message()
 
     # Created by Adam
     def help_greet(self):
-        print(
-            self.banner +
-            "\ngreet command help\n" +
-            self.banner +
-            "\nDescription: A Greeting message\n"
-            "Syntax: greet\n"
-            "Parameter: none\n"
-            "Example: greet\n"
-        )
+        display = HelpDisplay(GreetHelp())
+        display.display_message()
 
     # Created by Adam
     def do_greet(self, line):
